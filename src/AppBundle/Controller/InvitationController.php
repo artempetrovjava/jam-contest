@@ -6,6 +6,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Dto\InvitationDto;
+use AppBundle\Exception\WrongInvitationTypeException;
 use AppBundle\InvitationManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -39,7 +40,11 @@ class InvitationController extends Controller
             ->setType($type)
             ->setUserId($userId);
 
-        $invitations = $this->manager->getInvitations($dto);
+        try {
+            $invitations = $this->manager->getInvitations($dto);
+        } catch (WrongInvitationTypeException $e) {
+            return $this->json(['error' => $e->getMessage()], 400);
+        }
 
         return $this->json(['invitations' => $invitations]);
     }

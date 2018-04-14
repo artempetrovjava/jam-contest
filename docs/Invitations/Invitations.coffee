@@ -28,4 +28,9 @@ HTTP/1.1 200 OK
     ]
 }
 
+@apiErrorExample Wrong type
+HTTP/1.1 400 Bad request
+{
+    "error": "No such type = wrong_type"
+}
 ###
