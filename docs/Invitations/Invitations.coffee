@@ -58,3 +58,21 @@ HTTP/1.1 400 Bad request
 }
 ###
 
+###
+@api {put} /api/v1/invitation/send/{invitationId} Send invite
+@apiName Send invite
+@apiDescription Send invite
+@apiGroup Invitations
+@apiVersion 0.1.0
+
+@apiParam {string} action Required. Available values: cancel, decline, accept
+
+@apiSuccessExample Success
+HTTP/1.1 200 OK
+{
+    "success": true
+}
+
+###
+
+
