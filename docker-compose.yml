@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  db:
+    image: "mysql:5.7"
+    ports:
+      - "3900:3306"
+    restart: unless-stopped
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: database
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci --init-connect='SET NAMES UTF8;'
+  web:
+    build: .
+    ports:
+      - "9080:80"
+    links:
+      - db:database_host
+    volumes:
+      - ./:/var/www/html
+    environment:
+      ENV: development
+      XDEBUG_REMOTE_HOST: localhost
+      XDEBUG_REMOTE_PORT: 9000
+    depends_on:
+      - db
+    restart: unless-stopped
+volumes:
+  db_data:

@@ -1,0 +1,25 @@
+#!/bin/bash
+set -e
+
+_environment=${ENV:-production}
+
+# install xdebug
+if [ $_environment = "development" ]
+then
+apt-get install -y php-xdebug
+_xdebug_remote_host=${XDEBUG_REMOTE_HOST:-localhost}
+_xdebug_remote_port=${XDEBUG_REMOTE_PORT:-9000}
+_xdebug_config_file='/etc/php/7.1/mods-available/xdebug.ini'
+> $_xdebug_config_file
+echo 'zend_extension=xdebug.so' >> $_xdebug_config_file
+echo 'xdebug.remote_autostart=on' >> $_xdebug_config_file
+echo 'xdebug.remote_enable=on' >> $_xdebug_config_file
+echo 'xdebug.remote_host='$_xdebug_remote_host  >> $_xdebug_config_file
+echo 'xdebug.remote_port='$_xdebug_remote_port >> $_xdebug_config_file
+fi
+
+# run cron
+crontab /etc/cron.d/crontasks
+
+# run supervisor
+/usr/bin/supervisord -n -c /etc/supervisord.conf
