@@ -5,20 +5,43 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Dto\InvitationDto;
+use AppBundle\InvitationManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class InvitationController extends Controller
 {
+    /** @var InvitationManager $manager */
+    protected $manager;
+
+    public function __construct(InvitationManager $manager)
+    {
+        $this->manager = $manager;
+    }
+
     /**
      * @param string $type
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \AppBundle\Exception\WrongInvitationTypeException
      */
-    public function listAction(string $type): JsonResponse
+    public function listAction(string $type, Request $request): JsonResponse
     {
-        // replace this example code with whatever you need
-        return $this->json(['success' => true]);
+        $dto = new InvitationDto();
+        $limit = $request->get('limit', InvitationManager::DEFAULT_LIMIT);
+        $userId = $request->get('userId');
+        $offset = $request->get('offset', 0);
+
+        $dto->setLimit($limit)
+            ->setOffset($offset)
+            ->setType($type)
+            ->setUserId($userId);
+
+        $invitations = $this->manager->getInvitations($dto);
+
+        return $this->json(['invitations' => $invitations]);
     }
 
     /**

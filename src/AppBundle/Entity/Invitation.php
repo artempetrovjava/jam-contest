@@ -27,6 +27,10 @@ class Invitation
      */
     private $receiver;
 
+    private $user_sender_id;
+
+    private $user_receiver_id;
+
     /**
      * Get id
      *
@@ -100,4 +104,44 @@ class Invitation
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUserSenderId()
+    {
+        return $this->user_sender_id;
+    }
+
+    /**
+     * @param mixed $user_sender_id
+     *
+     * @return Invitation
+     */
+    public function setUserSenderId($user_sender_id)
+    {
+        $this->user_sender_id = $user_sender_id;
+
+        return $this;
+}
+
+    /**
+     * @return mixed
+     */
+    public function getUserReceiverId()
+    {
+        return $this->user_receiver_id;
+    }
+
+    /**
+     * @param mixed $user_receiver_id
+     *
+     * @return Invitation
+     */
+    public function setUserReceiverId($user_receiver_id)
+    {
+        $this->user_receiver_id = $user_receiver_id;
+
+        return $this;
+}
 }

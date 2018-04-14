@@ -12,6 +12,10 @@ AppBundle\Entity\Invitation:
         status:
             type: string
             length: '50'
+        user_sender_id:
+            type: integer
+        user_receiver_id:
+            type: integer
 
 
     oneToOne:
