@@ -17,4 +17,4 @@ For more information please investigate apidoc and tests
 
 + [Git flow](http://nvie.com/posts/a-successful-git-branching-model/) as git branching model
 
-+ For formatting should use [php-cs-fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixe
++ For formatting should use [php-cs-fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)
