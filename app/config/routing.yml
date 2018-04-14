@@ -1,3 +1,16 @@
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
+invitation_list:
+    path:      api/v1/invitation/{type}
+    defaults:  { _controller: AppBundle:Invitation:list }
+    methods:  [GET]
+invitation_send:
+    path:      api/v1/invitation
+    defaults:  { _controller: AppBundle:Invitation:send }
+    methods:  [POST]
+    requirements:
+        type: send|request
+invitation_action:
+    path:      api/v1/invitation/{id}
+    defaults:  { _controller: AppBundle:Invitation:action }
+    methods:  [PUT]
+    requirements:
+        id: '\d+'

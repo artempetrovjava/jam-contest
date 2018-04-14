@@ -1,0 +1,31 @@
+AppBundle\Entity\Invitation:
+    type: entity
+    table: null
+    repositoryClass: AppBundle\Repository\InvitationRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        status:
+            type: string
+            length: '50'
+
+
+    oneToOne:
+        sender:
+            targetEntity: User
+            joinColumn:
+                name: user_sender_id
+                referencedColumnName: id
+                onDelete: CASCADE
+                onUpdate: CASCADE
+        receiver:
+            targetEntity: User
+            joinColumn:
+                name: user_receiver_id
+                referencedColumnName: id
+                onDelete: CASCADE
+                onUpdate: CASCADE
