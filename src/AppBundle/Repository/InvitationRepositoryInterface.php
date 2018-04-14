@@ -5,6 +5,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Invitation;
+
 interface InvitationRepositoryInterface
 {
     /**
@@ -14,7 +16,7 @@ interface InvitationRepositoryInterface
      *
      * @return mixed
      */
-    public function findSend(int $userId, int $offset, int $limit);
+    public function findSend(int $userId, int $offset, int $limit): array;
 
     /**
      * @param int $userId
@@ -23,5 +25,10 @@ interface InvitationRepositoryInterface
      *
      * @return mixed
      */
-    public function findReceived(int $userId, int $offset, int $limit);
+    public function findReceived(int $userId, int $offset, int $limit): array;
+
+    /**
+     * @param Invitation $invitation
+     */
+    public function save(Invitation $invitation): void;
 }

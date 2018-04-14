@@ -38,3 +38,10 @@ services:
         arguments: ['AppBundle\Entity\Invitation']
 
     AppBundle\Repository\InvitationRepositoryInterface: '@AppBundle\Repository\InvitationRepository'
+
+    AppBundle\Repository\UserRepository:
+        factory: 'doctrine.orm.entity_manager:getRepository'
+        arguments: ['AppBundle\Entity\User']
+
+    AppBundle\Repository\UserRepositoryInterface: '@AppBundle\Repository\UserRepository'
+

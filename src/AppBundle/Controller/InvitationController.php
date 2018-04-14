@@ -6,6 +6,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Dto\InvitationDto;
+use AppBundle\Exception\AlreadySendFriendRequestException;
 use AppBundle\Exception\WrongInvitationTypeException;
 use AppBundle\InvitationManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -50,10 +51,21 @@ class InvitationController extends Controller
     }
 
     /**
+     * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function sendAction(): JsonResponse
+    public function sendAction(Request $request): JsonResponse
     {
+        $senderId = $request->get('senderId');
+        $receiverId = $request->get('receiverId');
+
+        try {
+            $this->manager->sendInvitation($senderId, $receiverId);
+        } catch (AlreadySendFriendRequestException $e) {
+            return $this->json(['error' => $e->getMessage()], 400);
+        }
+
         // replace this example code with whatever you need
         return $this->json(['success' => true]);
     }

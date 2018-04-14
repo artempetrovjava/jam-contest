@@ -58,4 +58,17 @@ class InvitationRepository extends EntityRepository implements InvitationReposit
 
         return $qb->getQuery()->getArrayResult();
     }
+
+    /**
+     * @param Invitation $invitation
+     *
+     * @return void
+     * @throws \Doctrine\ORM\ORMInvalidArgumentException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function save(Invitation $invitation): void
+    {
+        $this->_em->persist($invitation);
+        $this->_em->flush();
+    }
 }

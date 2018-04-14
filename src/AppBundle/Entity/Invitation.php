@@ -27,8 +27,14 @@ class Invitation
      */
     private $receiver;
 
+    /**
+     * @var int
+     */
     private $user_sender_id;
 
+    /**
+     * @var int
+     */
     private $user_receiver_id;
 
     /**
@@ -123,7 +129,7 @@ class Invitation
         $this->user_sender_id = $user_sender_id;
 
         return $this;
-}
+    }
 
     /**
      * @return mixed
@@ -143,5 +149,5 @@ class Invitation
         $this->user_receiver_id = $user_receiver_id;
 
         return $this;
-}
+    }
 }
