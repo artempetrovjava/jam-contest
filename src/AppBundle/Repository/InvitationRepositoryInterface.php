@@ -31,4 +31,9 @@ interface InvitationRepositoryInterface
      * @param Invitation $invitation
      */
     public function save(Invitation $invitation): void;
+
+    /**
+     * @param Invitation $invitation
+     */
+    public function remove(Invitation $invitation): void;
 }

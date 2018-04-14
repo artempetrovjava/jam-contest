@@ -7,6 +7,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Dto\InvitationDto;
 use AppBundle\Exception\AlreadySendFriendRequestException;
+use AppBundle\Exception\InvitationException;
 use AppBundle\Exception\WrongInvitationTypeException;
 use AppBundle\InvitationManager;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,7 +28,6 @@ class InvitationController extends Controller
      * @param string $type
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
-     * @throws \AppBundle\Exception\WrongInvitationTypeException
      */
     public function listAction(string $type, Request $request): JsonResponse
     {
@@ -73,10 +73,19 @@ class InvitationController extends Controller
     /**
      * @param string $id
      *
+     * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function actionAction(string $id): JsonResponse
+    public function actionAction(string $id, Request $request): JsonResponse
     {
+        $action = $request->get('action');
+        try {
+            $this->manager->executeRequestAction($id, $action);
+        } catch (InvitationException $e) {
+            return $this->json(['error' => $e->getMessage()], 400);
+        }
+
         // replace this example code with whatever you need
         return $this->json(['success' => true]);
     }

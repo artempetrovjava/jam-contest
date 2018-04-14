@@ -10,7 +10,9 @@ use AppBundle\Entity\Invitation;
 use AppBundle\Enum\GetInvitationType;
 use AppBundle\Enum\InvitationStatus;
 use AppBundle\Exception\AlreadySendFriendRequestException;
+use AppBundle\Exception\InvitationException;
 use AppBundle\Exception\WrongInvitationTypeException;
+use AppBundle\Factory\ActionExecuteFactory;
 use AppBundle\Repository\InvitationRepository;
 use AppBundle\Repository\InvitationRepositoryInterface;
 use AppBundle\Repository\UserRepository;
@@ -22,16 +24,19 @@ class InvitationManager
 
     /** @var InvitationRepository $invitationRepository */
     protected $invitationRepository;
-
     /** @var UserRepository $userRepository */
     protected $userRepository;
+    /** @var ActionExecuteFactory $actionFactory */
+    protected $actionFactory;
 
     public function __construct(
         InvitationRepositoryInterface $invitationRepository,
-        UserRepositoryInterface $userRepository
+        UserRepositoryInterface $userRepository,
+        ActionExecuteFactory $actionFactory
     ) {
         $this->invitationRepository = $invitationRepository;
         $this->userRepository = $userRepository;
+        $this->actionFactory = $actionFactory;
     }
 
     /**
@@ -84,5 +89,21 @@ class InvitationManager
             ->setStatus(InvitationStatus::PENDING);
 
         $this->invitationRepository->save($invitation);
+    }
+
+    /**
+     * @param int $inviteId
+     * @param string $action
+     *
+     * @throws InvitationException
+     */
+    public function executeRequestAction(int $inviteId, string $action)
+    {
+        $invitation = $this->invitationRepository->find($inviteId);
+        if(null === $invitation) {
+            throw new InvitationException('No such invitation!');
+        }
+
+        $this->actionFactory->get($action)->execute($invitation);
     }
 }

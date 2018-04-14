@@ -5,6 +5,6 @@
 
 namespace AppBundle\Exception;
 
-class AlreadySendFriendRequestException extends InvitationException
+class WrongActionException extends InvitationException
 {
 }

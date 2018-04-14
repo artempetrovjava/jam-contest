@@ -5,6 +5,6 @@
 
 namespace AppBundle\Exception;
 
-class WrongInvitationTypeException extends \Exception
+class WrongInvitationTypeException extends InvitationException
 {
 }

@@ -14,7 +14,6 @@ use function Symfony\Component\VarDumper\Tests\Fixtures\bar;
  */
 class InvitationRepository extends EntityRepository implements InvitationRepositoryInterface
 {
-
     /**
      * @param int $userId
      * @param int $offset
@@ -69,6 +68,18 @@ class InvitationRepository extends EntityRepository implements InvitationReposit
     public function save(Invitation $invitation): void
     {
         $this->_em->persist($invitation);
+        $this->_em->flush();
+    }
+
+    /**
+     * @param Invitation $invitation
+     *
+     * @throws \Doctrine\ORM\ORMInvalidArgumentException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function remove(Invitation $invitation): void
+    {
+        $this->_em->remove($invitation);
         $this->_em->flush();
     }
 }
